@@ -16,6 +16,7 @@ Este proyecto contiene tests automatizados para práctica utilizando Playwright 
 
 ``
 git clone https://github.com/Zemanser/Prueba-playwright-izertis-guru99.git
+
 cd /izertis-playwright
 
 2. Instalar dependencias:
