@@ -28,7 +28,26 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
+  async fillUsername(username: string) {
+    await this.usernameInput.fill(username);
+  }
+
+  async fillPassword(password: string) {
+    await this.passwordInput.fill(password);
+  }
+
+  async clickLogin() {
+    await this.loginButton.click();
+  }
+
   async reset() {
     await this.resetButton.click();
   }
+  async takeScreenshot(name: string) {
+    await this.page.screenshot({
+      path: `screenshots/${name}.png`,
+      fullPage: true
+    });
+  }
+
 }
