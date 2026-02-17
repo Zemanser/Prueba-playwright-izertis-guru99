@@ -51,33 +51,60 @@ README.md
 npx playwright test
 
 
-# Ejecutar en modo UI:
+##  Ejecutar en modo UI:
 
 npx playwright test --ui
 
 
-# Ejecutar en modo visible (no headless):
+##  Ejecutar en modo visible (no headless):
 
 npx playwright test --headed
 
 
-# Ejecutar en modo debug:
+##  Ejecutar en modo debug:
 
 npx playwright test --debug
 
 
-# Abrir HTML report:
+##  Abrir HTML report:
 
 npx playwright show-report
 
 
-# Ejecutar tests en un navegador específico:
+##  Ejecutar tests en un navegador específico:
 
 npx playwright test --project=chromium
 
 
-# Ejecutar tests con trazas y videos (según configuración playwright.config.ts):
+##  Ejecutar tests con trazas y videos (según configuración playwright.config.ts):
 
 npx playwright test --trace on --video retain-on-failure
 
 
+#  Integración Continua (CI)
+
+El proyecto incluye un workflow de GitHub Actions que ejecuta automáticamente los tests de Playwright.
+
+El workflow:
+
+. Ejecuta los tests en entorno Linux (ubuntu-latest)
+. Instala dependencias y navegadores
+. Ejecuta los tests en Chromium y Firefox
+. Genera y almacena el reporte HTML como artefacto
+. Se ejecuta automáticamente cada dos días a las 03:00 (hora España en invierno)
+. Puede lanzarse manualmente desde la pestaña Actions en GitHub
+
+##  Archivo del workflow:
+
+.github/workflows/playwright.yml
+
+
+##  Para ejecutarlo manualmente:
+
+1. Ir al repositorio en GitHub
+
+2. Seleccionar la pestaña Actions
+
+3. Elegir el workflow "Nightly Playwright Tests"
+
+4. Pulsar Run workflow
