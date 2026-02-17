@@ -1,8 +1,8 @@
 import { Page, Locator } from '@playwright/test';
+import { BasePage } from './BasePage';
 import { loginLocators } from '../locators/login.locators';
 
-export class LoginPage {
-  readonly page: Page;
+export class LoginPage extends BasePage {
 
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
@@ -10,18 +10,16 @@ export class LoginPage {
   readonly resetButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
-
+    super(page);
     this.usernameInput = page.locator(loginLocators.usernameInput);
     this.passwordInput = page.locator(loginLocators.passwordInput);
     this.loginButton = page.locator(loginLocators.loginButton);
     this.resetButton = page.locator(loginLocators.resetButton);
   }
-
+  
   async goto() {
     await this.page.goto('https://demo.guru99.com/V4/');
   }
-
   async login(username: string, password: string) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
@@ -39,15 +37,7 @@ export class LoginPage {
   async clickLogin() {
     await this.loginButton.click();
   }
-
-  async reset() {
+async reset() {
     await this.resetButton.click();
   }
-  async takeScreenshot(name: string) {
-    await this.page.screenshot({
-      path: `screenshots/${name}.png`,
-      fullPage: true
-    });
-  }
-
 }

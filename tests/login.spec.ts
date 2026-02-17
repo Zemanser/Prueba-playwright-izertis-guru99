@@ -21,7 +21,7 @@ test('Login válido → redirección correcta', async ({ page }) => {
   await loginPage.fillPassword(validUser.password);
 
   // Screenshot con datos introducidos
-  await loginPage.takeScreenshot('01_datos_introducidos');
+  await loginPage.takeScreenshot('login_01_datos_introducidos');
 
   // Click login
   await loginPage.clickLogin();
@@ -29,10 +29,8 @@ test('Login válido → redirección correcta', async ({ page }) => {
   await expect(page).toHaveURL(/Managerhomepage/);
 
   // Screenshot resultado final
-  await loginPage.takeScreenshot('01_resultado_final');
+  await loginPage.takeScreenshot('login_01_resultado_final');
 });
-
-
 
   // 2️⃣ LOGIN INVÁLIDO
 test('Login inválido → error visible', async ({ page }) => {
@@ -42,7 +40,7 @@ test('Login inválido → error visible', async ({ page }) => {
   await loginPage.fillPassword(invalidUser.password);
 
   // Screenshot con datos introducidos
-  await loginPage.takeScreenshot('02_datos_introducidos');
+  await loginPage.takeScreenshot('login_02_datos_introducidos');
 
   // Esperamos el alert antes de hacer click
   const dialogPromise = page.waitForEvent('dialog');
@@ -57,18 +55,22 @@ test('Login inválido → error visible', async ({ page }) => {
 
   await dialog.accept(); // MUY IMPORTANTE
 
-  // Screenshot tras cerrar el alert
-  await loginPage.takeScreenshot('02_resultado_final');
+  // 👇 Esperamos a que la página vuelva a estar estable
+await page.waitForLoadState('domcontentloaded');
+
+  // screenshot resultado final tras cerrar el alert
+await loginPage.takeScreenshot('login_02_resultado_final');
 });
 
-// 3️⃣ LOGIN SIN DATOS
+// 3️⃣ LOGIN SIN INTRODUCIR DATOS
 test('Login sin introducir datos → error visible', async ({ page }) => {
 
-  // Screenshot antes de hacer nada (campos vacíos)
-  await loginPage.takeScreenshot('03_inicio_vacio');
+  // Screenshot inicial (campos vacíos)
+  await loginPage.takeScreenshot('login_03_inicio_vacio');
 
   const dialogPromise = page.waitForEvent('dialog');
 
+  // Click login sin rellenar nada
   await loginPage.clickLogin();
 
   const dialog = await dialogPromise;
@@ -77,9 +79,11 @@ test('Login sin introducir datos → error visible', async ({ page }) => {
 
   await dialog.accept();
 
-  await loginPage.takeScreenshot('03_resultado_final');
-});
+  // Esperamos a que la página se estabilice
+  await page.waitForLoadState('domcontentloaded');
 
-  
+  // Screenshot final tras cerrar el alert
+  await loginPage.takeScreenshot('login_03_resultado_final');
+});
 
 });
