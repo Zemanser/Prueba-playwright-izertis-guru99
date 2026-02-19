@@ -7,6 +7,7 @@ export class BasePage {
     this.page = page;
   }
 
+  
   async takeScreenshot(name: string) {
     await this.page.screenshot({
       path: `screenshots/newCustomer/${name}.png`,

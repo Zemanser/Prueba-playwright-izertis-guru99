@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { newCustomerLocators } from '../locators/newCustomer.locators';
+import { newCustomerData } from '../data/newCustomer.data';
 
 export class NewCustomerPage extends BasePage {
 
@@ -20,7 +21,6 @@ export class NewCustomerPage extends BasePage {
     readonly successMessage: Locator;
     readonly customerIdCell: Locator;
 
-
     constructor(page: Page) {
         super(page);
 
@@ -39,7 +39,6 @@ export class NewCustomerPage extends BasePage {
 
         this.successMessage = page.locator(newCustomerLocators.successMessage);
         this.customerIdCell = page.locator(newCustomerLocators.customerIdCell);
-
     }
 
     async navigateToNewCustomer() {
@@ -61,6 +60,7 @@ export class NewCustomerPage extends BasePage {
         await this.addressInput.click();
         await this.addressInput.blur();
     }
+
     async fillEmail(email: string) {
         await this.emailInput.fill(email);
     }
@@ -69,27 +69,27 @@ export class NewCustomerPage extends BasePage {
         await this.emailInput.click();
         await this.emailInput.blur();
     }
+
     async fillNewCustomerForm() {
 
-        await this.customerNameInput.fill('Francisco Gonzalez');
+        await this.customerNameInput.fill(newCustomerData.name);
 
-        // 👇 IMPORTANTE: seleccionar género explícitamente
-        await this.page.locator('input[value="m"]').check();
+        // Gender
+        await this.page.locator(`input[value="${newCustomerData.gender}"]`).check();
 
-        // 👇 MUY IMPORTANTE: DOB en formato yyyy-mm-dd
-        await this.page.locator('input[name="dob"]').fill('1975-01-19');
+        // DOB (formato requerido por Guru99)
+        await this.page.locator('input[name="dob"]').fill(newCustomerData.dob);
 
-        await this.addressInput.fill('Rio de janeiro 88');
-        await this.page.locator('input[name="city"]').fill('Barcelona');
-        await this.page.locator('input[name="state"]').fill('Spain');
-        await this.page.locator('input[name="pinno"]').fill('009900');
-        await this.page.locator('input[name="telephoneno"]').fill('688675566');
+        await this.addressInput.fill(newCustomerData.address);
+        await this.page.locator('input[name="city"]').fill(newCustomerData.city);
+        await this.page.locator('input[name="state"]').fill(newCustomerData.state);
+        await this.page.locator('input[name="pinno"]').fill(newCustomerData.pin);
+        await this.page.locator('input[name="telephoneno"]').fill(newCustomerData.phone);
 
+        // Email dinámico (NO en data)
         const randomEmail = `fran${Date.now()}@hot.com`;
-        await this.page.locator('input[name="emailid"]').fill(randomEmail);
+        await this.emailInput.fill(randomEmail);
 
-        await this.page.locator('input[name="password"]').fill('Test1234');
+        await this.page.locator('input[name="password"]').fill(newCustomerData.password);
     }
-
-
 }
